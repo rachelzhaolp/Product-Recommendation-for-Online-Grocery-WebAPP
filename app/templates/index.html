@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="static/basic.css" rel="stylesheet">
+</head>
+
+<body>
+    <h3>
+         <a href = "{{ url_for('index') }}">Penny Lane Music Recommender</a>
+    </h3>
+
+    <hr/>
+    <table>
+         <thead>
+            <tr>
+               <th>Title</th>
+               <th>Artist</th>
+               <th>Album</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            {% for track in tracks %}
+               <tr>
+                   <td>{{ track.title }}</td>
+                   <td>{{ track.artist }}</td>
+                   <td>{{ track.album }}</td>
+               </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+      <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+      <dl>
+        <input type=text size=15 name=title placeholder="Title">
+        <input type=text size=15 name=artist placeholder="Artist">
+        <input type=text size=15 name=album placeholder="Album">
+        <input type=submit value=Add>
+      </dl>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.py[cod]
+*.class
+.DS_Store
+.idea/
+.log
+.ipynb_checkpoints/
+
+
+data/*
+!data/sample/
+!data/external/
+config/local
+!.gitkeep
