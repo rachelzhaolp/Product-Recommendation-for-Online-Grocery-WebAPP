@@ -1,8 +1,13 @@
-# MSiA423 Template Repository
+# Product Recommendation System - Project Repository
+
+<!-- toc -->
+#### Developer: Luping(Rachel) Zhao
+#### QA: Siqi Li
 
 <!-- toc -->
 
 - [Directory structure](#directory-structure)
+- [Project Charter](#Project-Charter)
 - [Running the app](#running-the-app)
   * [1. Initialize the database](#1-initialize-the-database)
     + [Create the database with a single song](#create-the-database-with-a-single-song)
@@ -15,6 +20,8 @@
   * [1. Build the image](#1-build-the-image)
   * [2. Run the container](#2-run-the-container)
   * [3. Kill the container](#3-kill-the-container)
+ 
+## Project Charter
 
 <!-- tocstop -->
 
