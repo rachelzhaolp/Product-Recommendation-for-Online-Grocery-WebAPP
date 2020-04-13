@@ -8,6 +8,7 @@
 
 
 - [Project Charter](#Project-Charter)
+- [Backlog](#Backlog)
 - [Directory structure](#directory-structure)
 <!-- 
 - [Running the app](#running-the-app)
