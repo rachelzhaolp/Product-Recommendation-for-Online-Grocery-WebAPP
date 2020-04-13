@@ -1,4 +1,4 @@
-# Product Recommendation System - Project Repository
+# Product Recommendation - Project Repository
 
 <!-- toc -->
 #### Developer: Luping(Rachel) Zhao
@@ -6,8 +6,10 @@
 
 <!-- toc -->
 
-- [Directory structure](#directory-structure)
+
 - [Project Charter](#Project-Charter)
+- [Directory structure](#directory-structure)
+<!-- 
 - [Running the app](#running-the-app)
   * [1. Initialize the database](#1-initialize-the-database)
     + [Create the database with a single song](#create-the-database-with-a-single-song)
@@ -20,11 +22,56 @@
   * [1. Build the image](#1-build-the-image)
   * [2. Run the container](#2-run-the-container)
   * [3. Kill the container](#3-kill-the-container)
+-->
  
-## Project Charter
-
 <!-- tocstop -->
 
+## Project Charter
+**Vision**: Retailers can never assume that the customers know all of their offerings. But rather, they must make efforts to present all applicable options in ways that improve customer experience and increase sales.  While brick-and-mortar shops guild customers' shopping experience with salespeople, online retailers need to find their way to give specific product recommendations.
+
+**Mission**: The app will prompt users to select an initial product into the cart and then recommend the products frequently bought together. This project uses the [Online Retail II UCI](https://www.kaggle.com/mashlyn/online-retail-ii-uci) data set compiled by Mashlyn on Kaggle.com, which contains all the transactions occurring for a UK-based online retail between 01/12/2009 and 09/12/2011. The model will find frequent patterns in this transaction database using Market Basket Analysis, the most common association rule mining approach used by large retailers like Amazon.
+
+**Success criteria**:
+- Business outcome metrics: 15% increase in sales and a 5% increase in daily active users compared with no recommendations.
+- Model performance metric: define the absolute threshold of the Decision-support metrics(Accuracy, recall, precision) and Rank Metrics(mRR, mAP, DCG) to evaluate a recommender model is tricky, however, we use the following value for now.
+1. 55% cross-validated f-score
+2. 45% Mean Average Precision
+
+
+## Backlog
+**Main Initiative**:
+Increase the sales of online retailers by deploying market basket analysis to give product recommendations using market basket analysis.
+
+**Initiative 1: Data Manipulation & Exploratory Data Analysis**
+1.	Exploratory data analysis: descriptive statistics (1 point)
+2.	Data cleaning with outliers, missing values, skewness, and imbalance (2 point)
+    *	Choose only a part of the 5305 different products for the app if there is not enough data to make a recommendation.
+    
+**Initiative 2: Model Development**
+1.	Split data into training and validation sets (0 point)
+2. Build the market busket analysis model(4 points)
+3. Model validation
+    *	Cross-validated decision-support metrics(Accuracy, recall, precision)(1 point).
+    *	Cross-validated rank metrics(mRR, mAP, DCG)(1 point).
+
+**Initiative 3: Product Development**
+1. Build data pipeline (2 points)
+2. Web app design:
+    *	User interface design(2 point)
+    *	User interaction design(2 point)
+3. Realize desired functionality(8 points -- needs to be broken down more when it comes to execution)
+4. Perform tests on the use cases and debug(4 points)
+5. Final roll-out (2 points)
+
+**Icebox**:
+**Initiative 2: Model Development**
+4. Train CBF recommendation system as a complement if necessary
+**Initiative 3: Product Development**
+Need to know more to realize.
+
+
+
+<!-- tocstop -->
 ## Directory structure 
 
 ```
