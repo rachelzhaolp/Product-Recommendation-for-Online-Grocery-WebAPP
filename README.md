@@ -64,8 +64,10 @@ Increase the sales of online retailers by deploying market basket analysis to gi
 5. Final roll-out (2 points)
 
 **Icebox**:
+
 **Initiative 2: Model Development**
 4. Train CBF recommendation system as a complement if necessary
+
 **Initiative 3: Product Development**
 Need to know more to realize.
 
