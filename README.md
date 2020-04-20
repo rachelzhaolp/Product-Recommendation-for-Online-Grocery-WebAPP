@@ -57,10 +57,12 @@ Increase the sales of online retailers by deploying market basket analysis to gi
 
 **Initiative 3: Product Development**
 1. Build data pipeline (2 points)
+    * Setting up S3 to store raw data
 2. Web app design:
     *	User interface design(2 point)
     *	User interaction design(2 point)
 3. Realize desired functionality(8 points -- needs to be broken down more when it comes to execution)
+    *  Setting up RDS to query from the app
 4. Perform tests on the use cases and debug(4 points)
 5. Final roll-out (2 points)
 
