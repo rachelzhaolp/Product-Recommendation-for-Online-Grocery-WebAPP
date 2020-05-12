@@ -43,37 +43,48 @@
 **Main Initiative**:
 Increase the sales of online retailers by deploying market basket analysis to give product recommendations using market basket analysis.
 
-**Initiative 1: Data Manipulation & Exploratory Data Analysis**
-1.	Exploratory data analysis: descriptive statistics (1 point)
-2.	Data cleaning with outliers, missing values, skewness, and imbalance (2 point)
-    *	Choose only a part of the 5305 different products for the app if there is not enough data to make a recommendation.
+**Initiative 1: Model Development**
+1. Epic 1: Data Acquisition and Ingestion
+    *	Story 1: Data Acquisition: download data from Kaggle (0 point)
+    * Story 2: Understand the meaning of each variable (0 point)
+    * Story 3: Exploratory Data Analysis (1 point)
+    * Story 4: Data cleaning with outliers, missing values, skewness, imbalance; Romove products with too few records to make a recommendation(2 point)
     
-**Initiative 2: Model Development**
-1.	Split data into training and validation sets (0 point)
-2. Build the market busket analysis model(4 points)
-3. Model validation
-    *	Cross-validated decision-support metrics(Accuracy, recall, precision)(1 point).
-    *	Cross-validated rank metrics(mRR, mAP, DCG)(1 point).
+2. Epic 2: Develop the Market Busket Analysis  model
+    *	Story 1: Split data into training and validation sets (0 point)
+    * Story 2: Build the market busket analysis model(4 points)
+    * Story 3: Evaluate model with cross-validated decision-support metrics(Accuracy, recall, precision) and cross-validated rank metrics(mRR, mAP, DCG) (2 points)
 
-**Initiative 3: Product Development**
-1. Build data pipeline (2 points)
-    * Setting up S3 to store raw data
-2. Web app design:
-    *	User interface design(2 point)
-    *	User interaction design(2 point)
-3. Realize desired functionality(8 points -- needs to be broken down more when it comes to execution)
-    *  Setting up RDS to query from the app
-4. Perform tests on the use cases and debug(4 points)
-5. Final roll-out (2 points)
+
+**Initiative 2: Product Development**
+1. Epic 1: Build data pipeline (8 points)
+    * Story 1: Create S3 bucket and load raw data (2 points)
+    * Story 2: Set up RDS instance and create suitable Database schema (i.e. tables) (2 points)
+    * Story 3: Enable the model to access data from S3 bucket, and return the predictions to RDS (2 points)
+2. Epic 2: Web app design: (4 points)
+    *	Story 1: User interface design (2 points)
+    *	Story 2: User interaction design (2 points)
+3. Epic 3: Web app (Flask) Development (8 points -- needs to be broken down more when it comes to execution)
+    * Story 1: Set up the web server with Flask
+    * Story 2: Achieve the desired functionality
+    
+**Initiative 3: Quality Assurance**
+1. Epic 1: Write Documentations and comments (4 points)
+    *	Story 1: Compile README.md to clarify the desired functionality and how to run the app (2 points)
+    *	Story 2: Ensure code readability (1 points)
+2. Epic 2:Testing (4 points)
+    *	Story 1: Testing the functionality of the app and the reproducibility of the model(2 points)
+    *	Story 2: Validate the efficiency of the design(2 points)
+    *	Story 3: Debug/refine if needed (-)
+3. Epic 3: Final roll-out (2 points)
+    
+
 
 **Icebox**:
 
-**Initiative 2: Model Development**
-4. Train CBF recommendation system as a complement if necessary
-
 **Initiative 3: Product Development**
-Need to know more to realize.
-
+2. Epic 2: Web app design
+3. Epic 3: Web app (Flask) Development
 
 
 <!-- tocstop -->
