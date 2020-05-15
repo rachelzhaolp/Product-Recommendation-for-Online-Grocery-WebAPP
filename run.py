@@ -2,7 +2,7 @@ import argparse
 import config.config as config
 
 from src.interact_s3 import upload_file, download_file
-from src.market_basket_analysis_db import truncate, create_db, add_rec
+from src.market_basket_analysis_db import truncate, create_tb, add_rec
 
 if __name__ == '__main__':
     # Add parsers for both creating a database and adding songs to it
@@ -24,10 +24,10 @@ if __name__ == '__main__':
     sb_download.set_defaults(func=download_file)
 
     # Sub-parser for creating a database
-    sb_create = subparsers.add_parser("create_db", description="Create database")
+    sb_create = subparsers.add_parser("create_tb", description="Create table")
     sb_create.add_argument("--rds", default=False, help="Boolean, True for connecting to RDS, False for connecting "
                                                         "to local database")
-    sb_create.set_defaults(func=create_db)
+    sb_create.set_defaults(func=create_tb)
 
     """
     sb_add and sb_truncate will not be used later when we insert data into RDS.
