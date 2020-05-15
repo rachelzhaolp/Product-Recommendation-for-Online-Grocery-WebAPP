@@ -170,7 +170,7 @@ The `upload_file()` function is defined in `interact_s3.py` under `src/`, it tak
 
 To download files from S3 bucket, run:
 ```bash
-docker run --env-file=config/.env msia423 run.py download_file. 
+docker run --env-file=config/.env --mount type=bind,source="$(pwd)"/data,target=/app/data msia423 run.py download_file 
 ```
 `download_file()` has the same arguments as `upload_file()`, the downloaded file will be stored in `data/`
 
