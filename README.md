@@ -153,8 +153,8 @@ vi config/.env
 Update the following credentials, press ESC, then input `:wq` to save the changes. 
 * `AWS_ACCESS_KEY_ID` 
 * `AWS_SECRET_ACCESS_KEY`
-* `MYSQL_USER`
-* `MYSQL_PASSWORD`
+
+* Update `MYSQL_USER`, `MYSQL_PASSWORD`,`MYSQL_HOST`,`DATABASE_NAME` if plan to run create_tb in Step 3.
 
 ### Step 2: Build docker image and tag it with `msia423`, msia423 is the name of the image
  ```bash
@@ -163,23 +163,37 @@ Update the following credentials, press ESC, then input `:wq` to save the change
 By default, the docker build command will look for a Dockerfile at the root of the build context. The -f, —file, the option lets you specify the path to an alternative file to use instead. Our Dockerfile is under `app/`.
 
 ### Step 3: Upload rawdata into S3 bucket
-```
+```bash
 docker run --env-file=config/.env msia423 run.py upload_file --bucket_name=<YOUR_S3_BUCKET_NAME>
 ```
 The `upload_file()` function is defined in `interact_s3.py` under `src/`, it takes three argument: `file_name`, `bucket_name`, `object_name`. You can find their description in the python script. By default, this function will upload the `online_retail_II.csv` file in the `data/` directory to S3 bucket `msia423-product-recommendation` and name the new object `online_retail_II.csv`. **You won't have the privilege to upload files into my S3 bucket(`msia423-product-recommendation`), please change bucket_name to yours.** If you intend to upload other files, please put the file in the `data/` directory and change `FILE_NAME` in the `config.py`.
 
 To download files from S3 bucket, run:
 ```bash
-docker run --env-file=config/.env msia423 run.py download_file. 
+docker run --env-file=config/.env --mount type=bind,source="$(pwd)"/data,target=/app/data msia423 run.py download_file 
 ```
 `download_file()` has the same arguments as `upload_file()`, the downloaded file will be stored in `data/`
 
 ### Step 4: Create new table
+Set `rds` to `True`, `create_tb()` will create a table named `prds_rec` in the `DATABASE_NAME` at `MYSQL_HOST` which you specified in the Step 1. 
+```bash
+docker run --env-file=config/.env msia423 run.py create_tb --rds=True
 ```
-docker run --env-file=config/.env msia423 run.py create_db --rds=True
-```
-Set `rds` to `True` will create a new database with a table named prds_rec in RDS. 
 By default, `rds` equals to False, and the database will be created on your local machine. Under `data/`.
+```bash
+docker run --mount type=bind,source="$(pwd)"/data,target=/app/data msia423 run.py create_tb
 ```
-docker run --mount type=bind,source="$(pwd)"/data,target=/app/data msia423 run.py create_db
+### Step 5: Connect to the RDS mysql database and run querys.
+
+* Connect to my MySQL RDS.
+```bash
+source config/.instructor_mysqlconf
+sh src/run_mysql_client.sh
+```
+* Run queries in MySQL.
+
+```bash
+show databases;
+use prod_rec;
+show tables;
 ```
