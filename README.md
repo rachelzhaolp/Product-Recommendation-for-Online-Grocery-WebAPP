@@ -166,7 +166,7 @@ By default, the docker build command will look for a Dockerfile at the root of t
 ```
 docker run --env-file=config/.env msia423 run.py upload_file --bucket_name=<YOUR_S3_BUCKET_NAME>
 ```
-The `upload_file()` function is defined in `interact_s3.py` under `src/`, it takes three argument: `file_name`, `bucket_name`, `object_name`. You can find their description in the python script. By default, this function will upload the `online_retail_II.csv` file in the `data/` directory to S3 bucket `msia423-product-recommendation` and name the new object `online_retail_II.csv`. *You won't have the privilege to upload files into my S3 bucket(`msia423-product-recommendation`), please change bucket_name to yours.* If you intend to upload other files, please put the file in the `data/` directory and change `FILE_NAME` in the `config.py`.
+The `upload_file()` function is defined in `interact_s3.py` under `src/`, it takes three argument: `file_name`, `bucket_name`, `object_name`. You can find their description in the python script. By default, this function will upload the `online_retail_II.csv` file in the `data/` directory to S3 bucket `msia423-product-recommendation` and name the new object `online_retail_II.csv`. **You won't have the privilege to upload files into my S3 bucket(`msia423-product-recommendation`), please change bucket_name to yours.** If you intend to upload other files, please put the file in the `data/` directory and change `FILE_NAME` in the `config.py`.
 
 To download files from S3 bucket, run:
 ```bash
