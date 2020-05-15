@@ -174,12 +174,12 @@ docker run --env-file=config/.env msia423 run.py download_file.
 ```
 `download_file()` has the same arguments as `upload_file()`, the downloaded file will be stored in `data/`
 
-### Step 4: Create new table in RDS
+### Step 4: Create new table
 ```
 docker run --env-file=config/.env msia423 run.py create_db --rds=True
 ```
 Set `rds` to `True` will create a new database with a table named prds_rec in RDS. 
 By default, `rds` equals to False, and the database will be created on your local machine. Under `data/`.
 ```
-docker run --env-file=config/.env msia423 run.py create_db
+docker run --mount type=bind,source="$(pwd)"/data,target=/app/data msia423 run.py create_db
 ```
