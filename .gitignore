@@ -6,6 +6,6 @@ __pycache__/
 .idea/
 .log
 .ipynb_checkpoints/
-
+ 
 config/local
 !.gitkeep
