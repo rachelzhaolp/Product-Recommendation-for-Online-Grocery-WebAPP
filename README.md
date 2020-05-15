@@ -11,7 +11,7 @@
 - [Project Charter](#Project-Charter)
 - [Backlog](#Backlog)
 - [Directory Structure](#directory-structure)
-- [Build the Data Pipeline](#How to build the data pipeline )
+- [Build the Data Pipeline](#How-to-build-the-data-pipeline )
 <!-- 
 - [Running the app](#running-the-app)
   * [1. Initialize the database](#1-initialize-the-database)
