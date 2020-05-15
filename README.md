@@ -10,7 +10,8 @@
 
 - [Project Charter](#Project-Charter)
 - [Backlog](#Backlog)
-- [Directory structure](#directory-structure)
+- [Directory Structure](#directory-structure)
+- [Build the Data Pipeline](#How to build the data pipeline )
 <!-- 
 - [Running the app](#running-the-app)
   * [1. Initialize the database](#1-initialize-the-database)
@@ -133,103 +134,52 @@ Increase the sales of online retailers by deploying market basket analysis to gi
 ├── requirements.txt                  <- Python package dependencies 
 ```
 
-## Running the app
-### 1. Initialize the database 
+## How to build the data pipeline 
+The online retail product recommendation app applies an offline training method, which requires the developer to transform data between local and S3 buckets, and then store the prediction into RDS. Follow the instructions in this section one should be able to build the data pipeline. The dataset of this project has been downloaded form [Kaggle](https://www.kaggle.com/mashlyn/online-retail-ii-uci) and stored under `data/`.
 
-#### Create the database with a single song 
-To create the database in the location configured in `config.py` with one initial song, run: 
-
-`python run.py create_db --engine_string=<engine_string> --artist=<ARTIST> --title=<TITLE> --album=<ALBUM>`
-
-By default, `python run.py create_db` creates a database at `sqlite:///data/tracks.db` with the initial song *Radar* by Britney spears. 
-#### Adding additional songs 
-To add an additional song:
-
-`python run.py ingest --engine_string=<engine_string> --artist=<ARTIST> --title=<TITLE> --album=<ALBUM>`
-
-By default, `python run.py ingest` adds *Minor Cause* by Emancipator to the SQLite database located in `sqlite:///data/tracks.db`.
-
-#### Defining your engine string 
-A SQLAlchemy database connection is defined by a string with the following format:
-
-`dialect+driver://username:password@host:port/database`
-
-The `+dialect` is optional and if not provided, a default is used. For a more detailed description of what `dialect` and `driver` are and how a connection is made, you can see the documentation [here](https://docs.sqlalchemy.org/en/13/core/engines.html). We will cover SQLAlchemy and connection strings in the SQLAlchemy lab session on 
-##### Local SQLite database 
-
-A local SQLite database can be created for development and local testing. It does not require a username or password and replaces the host and port with the path to the database file: 
-
-```python
-engine_string='sqlite:///data/tracks.db'
-
-```
-
-The three `///` denote that it is a relative path to where the code is being run (which is from the root of this directory).
-
-You can also define the absolute path with four `////`, for example:
-
-```python
-engine_string = 'sqlite://///Users/cmawer/Repos/2020-MSIA423-template-repository/data/tracks.db'
-```
-
-
-### 2. Configure Flask app 
-
-`config/flaskconfig.py` holds the configurations for the Flask app. It includes the following configurations:
-
-```python
-DEBUG = True  # Keep True for debugging, change to False when moving to production 
-LOGGING_CONFIG = "config/logging/local.conf"  # Path to file that configures Python logger
-HOST = "0.0.0.0" # the host that is running the app. 0.0.0.0 when running locally 
-PORT = 5000  # What port to expose app on. Must be the same as the port exposed in app/Dockerfile 
-SQLALCHEMY_DATABASE_URI = 'sqlite:///data/tracks.db'  # URI (engine string) for database that contains tracks
-APP_NAME = "penny-lane"
-SQLALCHEMY_TRACK_MODIFICATIONS = True 
-SQLALCHEMY_ECHO = False  # If true, SQL for queries made will be printed
-MAX_ROWS_SHOW = 100 # Limits the number of rows returned from the database 
-```
-
-### 3. Run the Flask app 
-
-To run the Flask app, run: 
-
+### Step 0: Clone the repository to your computer and change the working directory into the repository
 ```bash
-python app.py
+# clone with ssh, the repository will be download to your current working directory. 
+git clone git@github.com:rachelzhaolp/2020-msia423-Zhao-Luping.git
+# change working directory to the repository
+cd 2020-msia423-Zhao-Luping
 ```
 
-You should now be able to access the app at http://0.0.0.0:5000/ in your browser.
+### Step 1: Update the `.env` file. Replace the pseudo value with your credentials 
+1. Open vim in bash with `vi config/.env`, press i into the edit mode 
+```bash 
+vi config/.env
+```
+Update the following credentials, press ESC, then input `:wq` to save the changes. 
+* `AWS_ACCESS_KEY_ID` 
+* `AWS_SECRET_ACCESS_KEY`
+* `MYSQL_USER`
+* `MYSQL_PASSWORD`
 
-## Running the app in Docker 
+### Step 2: Build docker image and tag it with `msia423`, msia423 is the name of the image
+ ```bash
+ docker build -f app/Dockerfile -t msia423 .
+ ```
+By default, the docker build command will look for a Dockerfile at the root of the build context. The -f, —file, the option lets you specify the path to an alternative file to use instead. Our Dockerfile is under `app/`.
 
-### 1. Build the image 
+### Step 3: Upload rawdata into S3 bucket
+```
+docker run --env-file=config/.env msia423 run.py upload_file
+```
+The `upload_file()` function is defined in `interact_s3.py` under `src/`, it takes three argument: `file_name`, `bucket_name`, `object_name`. You can find their description in the python script. By default, this function will upload the `online_retail_II.csv` file in the `data/` directory to S3 bucket `msia423-product-recommendation` and name the new object `online_retail_II.csv`. If you intend to upload other files, please put the file in the `data/` directory and change `FILE_NAME` in the `config.py`.
 
-The Dockerfile for running the flask app is in the `app/` folder. To build the image, run from this directory (the root of the repo): 
-
+To download files from S3 bucket, run:
 ```bash
- docker build -f app/Dockerfile -t pennylane .
+docker run --env-file=config/.env msia423 run.py download_file. 
 ```
+`download_file()` has the same arguments as `upload_file()`, the downloaded file will be stored in `data/`
 
-This command builds the Docker image, with the tag `pennylane`, based on the instructions in `app/Dockerfile` and the files existing in this directory.
- 
-### 2. Run the container 
-
-To run the app, run from this directory: 
-
-```bash
-docker run -p 5000:5000 --name test pennylane
+### Step 4: Create new table in RDS
 ```
-You should now be able to access the app at http://0.0.0.0:5000/ in your browser.
-
-This command runs the `pennylane` image as a container named `test` and forwards the port 5000 from container to your laptop so that you can access the flask app exposed through that port. 
-
-If `PORT` in `config/flaskconfig.py` is changed, this port should be changed accordingly (as should the `EXPOSE 5000` line in `app/Dockerfile`)
-
-### 3. Kill the container 
-
-Once finished with the app, you will need to kill the container. To do so: 
-
-```bash
-docker kill test 
+docker run --env-file=config/.env msia423 run.py create_db --rds=True
 ```
-
-where `test` is the name given in the `docker run` command.
+Set `rds` to `True` will create a new database with a table named prds_rec in RDS. 
+By default, `rds` equals to False, and the database will be created on your local machine. Under `data/`.
+```
+docker run --env-file=config/.env msia423 run.py create_db
+```
