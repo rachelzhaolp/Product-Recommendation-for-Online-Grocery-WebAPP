@@ -61,7 +61,7 @@ def truncate(args):
         session.close()
 
 
-def create_db(args):
+def create_tb(args):
     """Creates a database
 
     Args:
@@ -72,7 +72,6 @@ def create_db(args):
 
     """
     if args.rds:
-        print(config.RDS_ENGING_STRING)
         engine = sqlalchemy.create_engine(config.RDS_ENGING_STRING)
     else:
         engine = sqlalchemy.create_engine(config.LOCAL_ENGING_STRING)
