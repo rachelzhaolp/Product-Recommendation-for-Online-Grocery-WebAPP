@@ -94,7 +94,7 @@ Increase the sales of online retailers by deploying market basket analysis to gi
 
 ```
 ├── README.md                         <- You are here
-├── api
+├── app
 │   ├── static/                       <- CSS, JS files that remain static
 │   ├── templates/                    <- HTML (or other code) that is templated and changes based on a set of inputs
 │   ├── boot.sh                       <- Start up script for launching app in Docker container.
@@ -103,11 +103,15 @@ Increase the sales of online retailers by deploying market basket analysis to gi
 ├── config                            <- Directory for configuration files 
 │   ├── local/                        <- Directory for keeping environment variables and other local configurations that *do not sync** to Github 
 │   ├── logging/                      <- Configuration of python loggers
-│   ├── flaskconfig.py                <- Configurations for Flask API 
+│   ├── .env                          <- Configurations of AWS and RDS credentials 
+│   ├── .instructor_mysqlconf         <- Configurations of RDS credentials for user "msia423instructor" to access my "prod_rec" database.
+│   ├── config.py                     <- Configurations of python scripts
+│   ├── flackconfig.py                <- Configurations for Flask API
 │
 ├── data                              <- Folder that contains data used or generated. Only the external/ and sample/ subdirectories are tracked by git. 
 │   ├── external/                     <- External data sources, usually reference data,  will be synced with git
 │   ├── sample/                       <- Sample data used for code development and testing, will be synced with git
+│   ├── online_retail_II.csv          <- Raw data 
 │
 ├── deliverables/                     <- Any white papers, presentations, final work products that are presented or delivered to a stakeholder 
 │
@@ -132,6 +136,7 @@ Increase the sales of online retailers by deploying market basket analysis to gi
 ├── app.py                            <- Flask wrapper for running the model 
 ├── run.py                            <- Simplifies the execution of one or more of the src scripts  
 ├── requirements.txt                  <- Python package dependencies 
+├── .gitignore                        <- .gitignore file
 ```
 
 ## How to build the data pipeline 
@@ -146,7 +151,7 @@ cd 2020-msia423-Zhao-Luping
 ```
 
 ### Step 1: Update the `.env` file. Replace the pseudo value with your credentials 
-1. Open vim in bash with `vi config/.env`, press i into the edit mode 
+Open vim in bash with `vi config/.env`, press i into the edit mode 
 ```bash 
 vi config/.env
 ```
@@ -166,7 +171,9 @@ By default, the docker build command will look for a Dockerfile at the root of t
 ```bash
 docker run --env-file=config/.env msia423 run.py upload_file --bucket_name=<YOUR_S3_BUCKET_NAME>
 ```
-The `upload_file()` function is defined in `interact_s3.py` under `src/`, it takes three argument: `file_name`, `bucket_name`, `object_name`. You can find their description in the python script. By default, this function will upload the `online_retail_II.csv` file in the `data/` directory to S3 bucket `msia423-product-recommendation` and name the new object `online_retail_II.csv`. **You won't have the privilege to upload files into my S3 bucket(`msia423-product-recommendation`), please change bucket_name to yours.** If you intend to upload other files, please put the file in the `data/` directory and change `FILE_NAME` in the `config.py`.
+The `upload_file()` function is defined in `interact_s3.py` under `src/`, it takes three argument: `file_name`, `bucket_name`, `object_name`. You can find their description in the python script. \
+By default, this function will upload the `online_retail_II.csv` file in the `data/` directory to S3 bucket `msia423-product-recommendation` and name the new object `online_retail_II.csv`. **You won't have the privilege to upload files into my S3 bucket(`msia423-product-recommendation`), please change bucket_name to yours.** \
+If you intend to upload other files, please put the file in the `data/` directory and change `FILE_NAME` in the `config.py`.
 
 To download files from S3 bucket, run:
 ```bash
