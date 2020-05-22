@@ -190,7 +190,7 @@ By default, `rds` equals to False, and the database will be created on your loca
 ```bash
 docker run --mount type=bind,source="$(pwd)"/data,target=/app/data msia423 run.py create_tb
 ```
-### Step 5: Connect to the RDS mysql database and run querys.
+### Step 5: Connect to the RDS MySQL database and run queries.
 
 * Connect to my MySQL RDS.
 ```bash
