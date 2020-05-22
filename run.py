@@ -30,7 +30,7 @@ if __name__ == '__main__':
     sb_create.set_defaults(func=create_tb)
 
     """
-    sb_add and sb_truncate will not be used later when we insert data into RDS.
+    sb_add and sb_truncate will be used later to insert data into RDS.
     """
     # Sub-parser for add records to a table in RDS/Local sqlite
     sb_add = subparsers.add_parser("add_rec", description="Add records to a table table")
