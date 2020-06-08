@@ -1,0 +1,90 @@
+<html>
+  <head>
+      <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  </head>
+    <!-- Custom styles for this template -->
+    <link href="../static/basic.css" rel="stylesheet">
+
+  <body>
+      <div class="container">
+        <div class="row">
+          <h2>
+              <svg class="bi bi-brightness-high" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+            </svg>
+              Welcome to Rachel's Little Grocery Store!</h2>
+          <hr />
+        </div>
+
+        <div class="row-fluid">
+            <h3><font color="#E6842A">What do you need for today?</font></h3>
+        <form class = "ey" method="POST" action="{{ url_for('submitForm') }}">
+            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="prod" name="prod" >
+                {% for rec in recs %}
+                <option data-subtext= "{{ rec.StockCode }}" value="{{ rec.StockCode }}"> {{ rec.Description }} </option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-default">
+                <svg class="bi bi-cart3" width="1.5em" height="1.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                </svg>  Add to Cart</button>
+        </form>
+        </div>
+
+        <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3" style="width:800px;">
+            <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-white overflow-hidden" style="width:800px; float:left;">
+                <div class="my-3 py-3">
+                    <h2 class="display-5">{{ this_rec.Description }}</h2>
+                    <p class="lead"> Price: £{{ this_rec.Price }}</p>
+                </div>
+                <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 50px; border-radius: 21px 21px 0 0;"></div>
+            </div>
+        </div>
+
+        <hr />
+        <div class=row-fluid" style="width:800px;">
+            <h3><font color="#E6842A"> Frequently bought together </font> </h3>
+          <hr />
+        </div>
+
+      <div class="d-md-flex flex-md-equal w-100 my-md-3 pl-md-3" style="width:800px;">
+          <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-white overflow-hidden" style="width:400px; float:left;">
+              <div class="my-3 py-3">
+                  <h2 class="display-5">
+                      {% if this_rec.conf1 ==0 %}
+                          NEW FAVORITE!
+                      {% else %}
+                          {{ this_rec.conf1 }}%
+                      {% endif %}</h2>
+                  <p class="lead">of people bought this also likes:</p>
+                  <p class="lead" style="font-weight: bold;"> {{ this_rec.Description_rec1 }}</p>
+                  <p class="lead">Price: £{{ this_rec.Price_rec1}}</p>
+              </div>
+          <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 150px; border-radius: 21px 21px 0 0;"></div>
+          </div>
+          <div class="bg-light mr-md-3 pt-3 px-3 pt-md-5 px-md-5 overflow-hidden" style="width:400px; float:right;">
+              <div class="my-3 p-3">
+                  <h2 class="display-5">
+                      {% if this_rec.conf2 ==0 %}
+                          NEW FAVORITE!
+                      {% else %}
+                          {{ this_rec.conf2 }}%
+                      {% endif %}</h2>
+                  <p class="lead">of people bought this also likes:</p>
+                  <p class="lead" style="font-weight: bold;">{{ this_rec.Description_rec2 }}</p>
+                  <p class="lead">Price: £{{ this_rec.Price_rec2}}</p>
+
+              </div>
+              <div class="bg-dark shadow-sm mx-auto" style="width: 80%; height: 150px; border-radius: 21px 21px 0 0;"></div>
+           </div>
+      </div >
+
+  </div>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
+  </body>
+</html>
