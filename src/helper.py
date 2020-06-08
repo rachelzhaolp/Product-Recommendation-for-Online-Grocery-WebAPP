@@ -8,6 +8,14 @@ project_path = path.dirname(path.dirname(path.abspath(__file__)))
 
 
 def read_csv(input_data_path):
+    """
+    read csv to pandas DataFrame
+    Args:
+        input_data_path: (String)
+
+    Returns:(DataFrame)
+
+    """
     try:
         # Load data from local file
         logger.info("Trying to load data from %s", input_data_path)
@@ -19,6 +27,14 @@ def read_csv(input_data_path):
 
 
 def save_csv(df, output_data_path, index=False):
+    """
+    Save pandas DataFrame to csv
+    Args:
+        df: (DataFrame)
+        output_data_path: (String)
+        index: (Boolean) True: include index when write to csv
+
+    """
     try:
         # Save data to file
         df.to_csv(output_data_path, index=index)
@@ -28,6 +44,14 @@ def save_csv(df, output_data_path, index=False):
 
 
 def load_config(config_path):
+    """
+    Load config.yaml
+    Args:
+        config_path: (String)
+
+    Returns:
+
+    """
     try:
         with open(config_path, "r") as f:
             config = yaml.load(f, Loader=yaml.FullLoader)
@@ -38,6 +62,15 @@ def load_config(config_path):
 
 
 def check_num(from_df, to_df):
+    """
+    Calculate difference of the # of rows of two DataFrame
+    Args:
+        from_df: (DataFrame)
+        to_df: (DataFrame)
+
+    Returns: (List of Int) [diff, len(to_df)]
+
+    """
     from_num = len(from_df)
     to_num = len(to_df)
     return [from_num - to_num, to_num]
