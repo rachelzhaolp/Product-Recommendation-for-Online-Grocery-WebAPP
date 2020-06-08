@@ -1,0 +1,42 @@
+acquire:
+  true_dir: test/true/
+  test_dir: data/
+  files_to_compare:
+    - online_retail_II.csv
+
+clean:
+  true_dir: test/true/
+  test_dir: data/
+  files_to_compare:
+    - clean_data.csv
+
+create_basket:
+  true_dir: test/true/
+  test_dir: data/
+  files_to_compare:
+    - basket.csv
+
+product_dim:
+  true_dir: test/true/
+  test_dir: data/
+  files_to_compare:
+    - product_dim.csv
+
+split:
+  true_dir: test/true/
+  test_dir: data/
+  files_to_compare:
+    - training_data.csv
+    - test_data.csv
+
+train:
+  true_dir: test/true/
+  test_dir: data/
+  files_to_compare:
+    - rec.csv
+
+evaluate:
+  true_dir: test/true/
+  test_dir: evaluations/
+  files_to_compare:
+    - accuracy.csv
