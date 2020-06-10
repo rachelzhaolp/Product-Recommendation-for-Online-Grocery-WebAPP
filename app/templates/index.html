@@ -37,7 +37,7 @@
             <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-white overflow-hidden" style="width:800px; float:left;">
                 <div class="my-3 py-3">
                     <h2 class="display-5">{{ this_rec.Description }}</h2>
-                    <p class="lead"> Price: £{{ this_rec.Price }}</p>
+                    <p class="lead"> Price: £{{ this_rec.Price }}   |   Product ID: {{ this_rec.StockCode }}</p>
                 </div>
                 <div class="bg-light shadow-sm mx-auto" style="width: 80%; height: 50px; border-radius: 21px 21px 0 0;"></div>
             </div>
@@ -58,7 +58,11 @@
                       {% else %}
                           {{ this_rec.conf1 }}%
                       {% endif %}</h2>
-                  <p class="lead">of people bought this also likes:</p>
+                                    <p class="lead">
+                      {% if this_rec.conf1 ==0 %}
+                      {% else %}
+                          of people bought this also likes:
+                      {% endif %}</p>
                   <p class="lead" style="font-weight: bold;"> {{ this_rec.Description_rec1 }}</p>
                   <p class="lead">Price: £{{ this_rec.Price_rec1}}</p>
               </div>
@@ -72,7 +76,11 @@
                       {% else %}
                           {{ this_rec.conf2 }}%
                       {% endif %}</h2>
-                  <p class="lead">of people bought this also likes:</p>
+                  <p class="lead">
+                      {% if this_rec.conf2 ==0 %}
+                      {% else %}
+                          of people bought this also likes:
+                      {% endif %}</p>
                   <p class="lead" style="font-weight: bold;">{{ this_rec.Description_rec2 }}</p>
                   <p class="lead">Price: £{{ this_rec.Price_rec2}}</p>
 
