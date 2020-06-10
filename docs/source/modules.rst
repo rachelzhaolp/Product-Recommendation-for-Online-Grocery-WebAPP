@@ -1,9 +1,0 @@
-2020-MSIA423-template-repository
-================================
-
-.. toctree::
-   :maxdepth: 4
-
-   app
-   run
-   src
