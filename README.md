@@ -10,8 +10,8 @@
 - [Directory Structure](#directory-structure)
 - [Clone the Repository](#Clone-the-Repository)
 - [Build the Data Pipeline](#Model-pipeline)
-    - [Step 1: Build docker image](#1.Build docker image)
-    - [Step 2: Execute the Model Pipeline](#2.Execute the Model Pipeline)
+    - [Step 1: Build docker image](#1.Build-docker-image)
+    - [Step 2: Execute the Model Pipeline](#2.Execute-the-Model-Pipeline)
         - [Execute specific step of the model pipeline](#Execute-specific-step-of-the-model-pipeline)
         - [Clean outputs](#Clean-all-output-files-generated-by-the-model-pipeline)
 - [Testing](#Testing)
@@ -19,8 +19,8 @@
     - [Unit tests](#Unit-tests)
 - [Create Date Base](#Create-database-and-store-the-recommendations )
 - [Run webapp](#Run WebApp)
-    - [Step 1: Build docker image](#1.Build docker image (APP))
-    - [Step 2: Run the app](#2.Run the app)
+    - [Step 1: Build docker image](#1.Build-docker-image-(APP))
+    - [Step 2: Run the app](#2.Run-the-app)
 
 
 - [Project Charter](#Project-Charter)
