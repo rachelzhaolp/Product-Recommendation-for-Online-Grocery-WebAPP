@@ -3,7 +3,6 @@ from os import path
 import boto3
 import botocore
 from botocore.exceptions import ClientError, NoCredentialsError
-import yaml
 
 logger = logging.getLogger(__name__)
 project_path = path.dirname(path.dirname(path.abspath(__file__)))
@@ -46,13 +45,8 @@ def main(args):
     """
 
     try:
-        with open(args.config, "r") as f:
-            config = yaml.load(f, Loader=yaml.FullLoader)
         var = vars(args)
-        var.pop('config', None)
         var.pop('func', None)
         acquire(**var)
-    except FileNotFoundError as e1:
-        logging.error(e1)
     except Exception as e2:
         logger.error("Unexpected error occurred when acquiring data: " + str(e2))

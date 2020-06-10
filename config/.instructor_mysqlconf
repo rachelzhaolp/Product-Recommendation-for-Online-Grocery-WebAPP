@@ -1,5 +1,0 @@
-export MYSQL_USER=msia423instructor
-export MYSQL_PASSWORD=lzp2080
-export MYSQL_HOST=market-basket-analysis.cc1aqge2v9qi.us-west-1.rds.amazonaws.com
-export MYSQL_PORT=3306
-export DATABASE_NAME=prod_rec
