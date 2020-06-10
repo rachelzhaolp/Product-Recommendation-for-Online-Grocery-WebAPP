@@ -54,7 +54,7 @@ reproducibility_tests: all
 	python3 run.py reproducibility_tests --config=${CONFIG_PATH}reproducibility_test.yaml
 
 ## create_database
-add_rec:
+add_rec: ${MODEL_PATH}rec.csv
 	python3 run.py add_rec
 
 evaluate: ${MODEL_PATH}auc_accuracy.csv
