@@ -170,7 +170,7 @@ docker run --mount type=bind,source="$(pwd)",target=/app/ prod_rec tests
 You will need to set your environment variable SQLALCHEMY_DATABASE_URI to access the database and save data.
 ```bash
 export SQLALCHEMY_DATABASE_URI=<YOUR_SQLALCHEMY_DATABASE_URI>
-docker run -e SQLALCHEMY_DATABASE_URI --mount type=bind,source="$(pwd)",target=/app/ prod_rec add_rec
+docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e SQLALCHEMY_DATABASE_URI --mount type=bind,source="$(pwd)",target=/app/ prod_rec add_rec
 ```
 
 ## Run webapp `Rechel’s Product Recommender for Online Grocery` 
