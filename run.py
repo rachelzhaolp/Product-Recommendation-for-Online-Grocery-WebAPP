@@ -24,14 +24,13 @@ if __name__ == '__main__':
     # Acquire parser
     sb_acquire = subparsers.add_parser("acquire", description="Acquire data from a S3 bucket and store the raw data "
                                                               "in local file")
-    sb_acquire.add_argument('--config', default=config.CONFIG_YAML, help='Path to yaml configuration file')
     sb_acquire.add_argument('--output', '-o', default=config.RAW_DATA, help='Path to save output (optional)')
     sb_acquire.add_argument("--object_name", default=config.OBJECT_NAME, help="Object to download")
     sb_acquire.add_argument("--bucket_name", default=config.BUCKET_NAME, help="S3 bucket to download from")
     sb_acquire.set_defaults(func=acquire)
 
     # Clean parser
-    sb_clean = subparsers.add_parser("clean",
+    sb_clean = subparsers.add_parser("clean_data",
                                      description="Load data from data_source and save cleaned data to out_filepath")
     sb_clean.add_argument('--config', default=config.CONFIG_YAML, help='Path to yaml configuration file')
     sb_clean.add_argument('--input', '-i', default=config.RAW_DATA, help='Path to input data')
@@ -87,10 +86,9 @@ if __name__ == '__main__':
     sb_upload.set_defaults(func=upload_file)
 
     # Sub-parser for add records to a table in RDS/Local sqlite
-    sb_add = subparsers.add_parser("add_rec", description="Add records to a table table")
-    sb_add.add_argument("--rds", default=False, help="Boolean, True for connecting to RDS, False for connecting "
-                                                     "to local database")
+    sb_add = subparsers.add_parser("add_rec", description="Add records to a table")
     sb_add.add_argument("--file", default=config.REC_PATH, help="Which file to write into the prds_rec table")
+    sb_add.add_argument("--table", default=config.TABLE, help="table name")
     sb_add.add_argument("--method", default="replace", choices={"fail", "replace", "append"},
                         help="How to behave if the table already exists."
                              "fail: Raise a ValueError."
@@ -101,7 +99,7 @@ if __name__ == '__main__':
     # Sub-parser for conducting reproducibility test
     sb_reproducibility_test = subparsers.add_parser("reproducibility_tests",
                                                     description="Run reproducibility tests")
-    sb_reproducibility_test.add_argument('--config', default='test/reproducibility_test.yaml',
+    sb_reproducibility_test.add_argument('--config', default=config.REPRODUCIBILITY_YAML,
                                          help='Path to yaml configuration file')
     sb_reproducibility_test.set_defaults(func=reproducibility_tests)
 
