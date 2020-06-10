@@ -66,5 +66,5 @@ clean:
 
 all: acquire clean_data product_dim create_basket split train evaluate
 
-.PHONY: tests reproducibility_tests clean all acquire clean_data product_dim create_basket split train evaluate
+.PHONY: tests reproducibility_tests clean all acquire clean_data product_dim create_basket split train evaluate add_rec
 
