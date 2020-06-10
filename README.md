@@ -18,7 +18,7 @@
     - [Reproducibility tests](#Reproducibility-tests)
     - [Unit tests](#Unit-tests)
 - [Create Date Base](#Create-database-and-store-the-recommendations )
-- [Run webapp](#Run WebApp)
+- [Run webapp](#Run-WebApp)
     - [Step 1: Build docker image](#1.Build-docker-image-(APP))
     - [Step 2: Run the app](#2.Run-the-app)
 
