@@ -1,5 +1,5 @@
 # Product Recommendation - Project Repository
-  
+**Running the model pipeline is heavy on memory, please increase the memory limitation for Docker to at least 12GB**  
 
 <!-- toc -->
 #### Developer: Luping(Rachel) Zhao
