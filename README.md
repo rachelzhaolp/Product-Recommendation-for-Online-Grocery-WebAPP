@@ -10,17 +10,17 @@
 - [Directory Structure](#directory-structure)
 - [Clone the Repository](#Clone-the-Repository)
 - [Build the Data Pipeline](#Model-pipeline)
-    - [Step 1: Build docker image](#Step-1:-Build-docker-image)
-    - [Step 2: Execute the Model Pipeline](#Step-2:-Execute-the-Model-Pipeline)
+    - [Step 1: Build docker image](#1.Build docker image)
+    - [Step 2: Execute the Model Pipeline](#2.Execute the Model Pipeline)
         - [Execute specific step of the model pipeline](#Execute-specific-step-of-the-model-pipeline)
         - [Clean outputs](#Clean-all-output-files-generated-by-the-model-pipeline)
 - [Testing](#Testing)
     - [Reproducibility tests](#Reproducibility-tests)
     - [Unit tests](#Unit-tests)
 - [Create Date Base](#Create-database-and-store-the-recommendations )
-- [Run webapp](#Run-webapp`Rechel’s Product Recommender for Online Grocery`)
-    - [Step 1: Build docker image](#Step-1:-Build-docker-image-for-the-app)
-    - [Step 2: Run the app](#Step-2:-Run-the-app)
+- [Run webapp](#Run WebApp)
+    - [Step 1: Build docker image](#1.Build docker image (APP))
+    - [Step 2: Run the app](#2.Run the app)
 
 
 - [Project Charter](#Project-Charter)
@@ -73,13 +73,13 @@ cd 2020-msia423-Zhao-Luping
 
 ## Model pipeline 
 
-###Step 1: Build docker image
+### 1.Build docker image
 This command builds a docker image named `prod_rec` with the Dockerfile in your current working directory.
  ```bash
 docker build -f Dockerfile -t prod_rec .
  ```
 
-### Step 2: Execute the Model Pipeline
+### 2.Execute the Model Pipeline
 The pipeline uses market basket analysis to make two recommendations for each product. It comprises seven dependent modules:
 `acquire`, `clean_data`, `create_basket`, `product_dim`, `split`, `train` and `evaluate`.
 * `acquire`: acquire raw data from S3 bucket `msia423-product-recommendation`;
@@ -173,14 +173,14 @@ export SQLALCHEMY_DATABASE_URI=<YOUR_SQLALCHEMY_DATABASE_URI>
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e SQLALCHEMY_DATABASE_URI --mount type=bind,source="$(pwd)",target=/app/ prod_rec add_rec
 ```
 
-## Run webapp `Rechel’s Product Recommender for Online Grocery` 
+## Run WebApp
 
-### Step-1: Build docker image for the app
+### 1.Build docker image (APP)
 
 ```bash
 docker build -f app/Dockerfile -t myapp .
 ```
-### Step 2: Run the app
+### 2.Run the app
 
 The app need to connect to a database to get the recommendations created from the model pipeline. 
 Please make sure you have right environment SQLALCHEMY_DATABASE_URI.
