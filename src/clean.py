@@ -7,6 +7,54 @@ logger = logging.getLogger(__name__)
 project_path = path.dirname(path.dirname(path.abspath(__file__)))
 
 
+def main(args):
+    """
+    main function to load raw data, clean data and save leaned data to csv
+    :param args: (argparse) user-input configuration file
+    """
+    try:
+        config_path = project_path + "/" + args.config
+        input_data_path = project_path + "/" + args.input
+        output_data_path = project_path + "/" + args.output
+
+        config = load_config(config_path)
+        df = read_csv(input_data_path)
+        clean_data = clean(df, **config['clean'])
+
+        # Write to output file
+        save_csv(clean_data, output_data_path)
+    except KeyError as e3:
+        logger.error("KeyError: " + str(e3))
+    except Exception as e:
+        logger.error("Unexpected error occurred when cleaning data: " + str(e))
+
+
+def clean(df, columns_to_keep, to_columns):
+    """
+    Clean raw data
+    Args:
+        df: (DataFrame) DataFrame of raw data
+        columns_to_keep: (String) Required columns
+        to_columns: (String) Columns names of the output file
+
+    Returns:DataFrame
+
+    """
+
+    # Keep only related columns before dropna()
+    df = df[columns_to_keep]
+
+    clean_data = remove_na(df)
+    clean_data = remove_cancel(clean_data)
+    clean_data = remove_invalid_prod(clean_data)
+    clean_data = remove_return(clean_data)
+    clean_data = remove_wrong(clean_data)
+    clean_data = clean_desc(clean_data)
+    clean_data.columns = to_columns
+
+    return clean_data
+
+
 def remove_na(from_df):
     """
     Remove rows contains na
@@ -101,61 +149,7 @@ def clean_desc(from_df):
     clean_desc = StockCode_cnt[StockCode_cnt['rank'] == 1][['StockCode', 'Description']]
 
     from_df = from_df.set_index('StockCode').join(clean_desc.set_index("StockCode"), lsuffix='_raw', rsuffix='_clean',
-                                        how="inner")
+                                                  how="inner")
     to_df = from_df.drop('Description_raw', axis=1).reset_index()
     logger.debug("Successfully cleaned Description.")
     return to_df
-
-
-def clean(df, columns_to_keep, to_columns):
-    """
-    Clean raw data
-    Args:
-        df: (DataFrame) DataFrame of raw data
-        columns_to_keep: (String) Required columns
-        to_columns: (String) Columns names of the output file
-
-    Returns:DataFrame
-
-    """
-    try:
-        # Keep only related columns before dropna()
-        df = df[columns_to_keep]
-
-        clean_data = remove_na(df)
-        clean_data = remove_cancel(clean_data)
-        clean_data = remove_invalid_prod(clean_data)
-        clean_data = remove_return(clean_data)
-        clean_data = remove_wrong(clean_data)
-        clean_data = clean_desc(clean_data)
-        clean_data.columns = to_columns
-
-        return clean_data
-
-    except ValueError as e2:
-        logger.error("ValueError:{}".format(e2))
-    except KeyError as e3:
-        logger.error("KeyError: " + str(e3) + " Please validate Keys in the configuration file.")
-        raise KeyError("Input data does not have all required columns.")
-    except Exception as e4:
-        logger.error("Unexpected error occurred when cleaning data: " + str(e4))
-
-
-def main(args):
-    """
-    main function to clean data
-    :param args: (argparse) user-input configuration file
-    """
-    try:
-        config_path = project_path + "/" + args.config
-        input_data_path = project_path + "/" + args.input
-        output_data_path = project_path + "/" + args.output
-
-        config = load_config(config_path)
-        df = read_csv(input_data_path)
-        clean_data = clean(df, **config['clean'])
-
-        # Write to output file
-        save_csv(clean_data, output_data_path)
-    except Exception as e:
-        logger.error("Unexpected error occurred when cleaning data: " + str(e))
