@@ -8,7 +8,21 @@
 <!-- toc -->
 
 - [Directory Structure](#directory-structure)
-- [Build the Data Pipeline](#How-to-build-the-data-pipeline )
+- [Clone the Repository](#Clone-the-Repository)
+- [Build the Data Pipeline](#Model-pipeline)
+    - [Step 1: Build docker image](#Step-1:-Build-docker-image)
+    - [Step 2: Execute the Model Pipeline](#Step-2:-Execute-the-Model-Pipeline)
+        - [Execute specific step of the model pipeline](#Execute-specific-step-of-the-model-pipeline)
+        - [Clean outputs](#Clean-all-output-files-generated-by-the-model-pipeline)
+- [Testing](#Testing)
+    - [Reproducibility tests](#Reproducibility-tests)
+    - [Unit tests](#Unit-tests)
+- [Create Date Base](#Create-database-and-store-the-recommendations )
+- [Run webapp](#Run-webapp`Rechel’s Product Recommender for Online Grocery`)
+    - [Step 1: Build docker image](#Step-1:-Build-docker-image-for-the-app)
+    - [Step 2: Run the app](#Step-2:-Run-the-app)
+
+
 - [Project Charter](#Project-Charter)
 - [Backlog](#Backlog)
 
@@ -47,6 +61,7 @@
 ├── Makefile                          <- Make file of model pipeline
 ├── .gitignore                        <- .gitignore file
 ```
+
 ## Clone the Repository
 
 ```bash
@@ -58,7 +73,7 @@ cd 2020-msia423-Zhao-Luping
 
 ## Model pipeline 
 
-### Step 1: Build docker image
+###Step 1: Build docker image
 This command builds a docker image named `prod_rec` with the Dockerfile in your current working directory.
  ```bash
 docker build -f Dockerfile -t prod_rec .
@@ -91,31 +106,38 @@ docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,sourc
 ```
 
 #### Execute specific step of the model pipeline
-`acquire`
+
+**acquire**
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec acquire
 ```
-`clean_data`
+
+**clean_data**
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec clean_data
 ```
-`product_dim`
+
+**product_dim**
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec product_dim
 ```
-`create_basket`
+
+**create_basket**
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec create_basket
 ```
-`split`
+
+**split**
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec split
 ```
-`train`
+
+**train**
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec train
 ```
-`evaluate`
+
+**evaluate**
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec evaluate
 ```
@@ -128,18 +150,23 @@ docker run --mount type=bind,source="$(pwd)",target=/app/ prod_rec clean
 **Note:** If you want specify the input, output, and configuration file, you should run `python3 run.py <step> <argument>` directly.(See `python run.py <step> --help` for help)
 
 ## Testing 
+
 ### Reproducibility tests
+
 This command will run the entire pipeline again and reproduce the output files. Then it will test them against the expected output saved at `test/ture/`
 ```bash
 docker run -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY --mount type=bind,source="$(pwd)",target=/app/ prod_rec reproducibility_tests
 ```
+
 ### Unit tests
+
 The unit testing module runs 26 unit tests on the functions used in the pipeline, with both happy path and unhappy path.
 ```bash
 docker run --mount type=bind,source="$(pwd)",target=/app/ prod_rec tests
 ```
 
 ## Create database and store the recommendations 
+
 You will need to set your environment variable SQLALCHEMY_DATABASE_URI to access the database and save data.
 ```bash
 export SQLALCHEMY_DATABASE_URI=<YOUR_SQLALCHEMY_DATABASE_URI>
@@ -147,11 +174,14 @@ docker run -e SQLALCHEMY_DATABASE_URI --mount type=bind,source="$(pwd)",target=/
 ```
 
 ## Run webapp `Rechel’s Product Recommender for Online Grocery` 
-### Build docker image for the app
+
+### Step-1: Build docker image for the app
+
 ```bash
 docker build -f app/Dockerfile -t myapp .
 ```
-### Run the app
+### Step 2: Run the app
+
 The app need to connect to a database to get the recommendations created from the model pipeline. 
 Please make sure you have right environment SQLALCHEMY_DATABASE_URI.
 ```bash
