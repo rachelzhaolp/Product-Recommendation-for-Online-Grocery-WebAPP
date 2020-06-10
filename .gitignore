@@ -6,10 +6,7 @@ __pycache__/
 .idea/
 .log
 .ipynb_checkpoints/
-
-
-data/*
-!data/sample/
-!data/external/
+ 
 config/local
 !.gitkeep
+.db

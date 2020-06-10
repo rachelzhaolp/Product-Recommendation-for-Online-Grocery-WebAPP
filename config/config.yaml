@@ -1,0 +1,82 @@
+model:
+  name: Product Recommendation for Online Retail with Masket Busket Analysis
+  author: Luping(Rachel) Zhao
+  version: AA1
+  description: Create product recommendation for online retail with Macket Buscket Analysis
+  tags:
+    - recommandation system
+  dependencies: requirements.txt
+
+clean:
+  columns_to_keep:
+    - Invoice
+    - StockCode
+    - Description
+    - Quantity
+    - Price
+  # step0: remove columns not in columns_to_keep
+  # step1: remove rows contains na:
+  # step2: remove cancelled orders: remove if Invoice contains "C"
+  # step3: remove rows with invalid StockCode(): match(r"\d{5}[A-Z]*".
+  #        eg: StockCode:12345A. 12345 is the category
+  # step4: remove return transaction: remove if Quantity < 0
+  # step5: remove wrongly sold/ not for sale transaction: remove if Price = 0
+  # step6: Clean Description: Each StockCode should have one and only one Description
+  #        Use the Description that has most transaction record
+  to_columns:
+    - StockCode
+    - Invoice
+    - Quantity
+    - Price
+    - Category
+    - Description
+
+product_dim:
+  to_columns:
+    - StockCode
+    - Category
+    - Description
+    - Price
+
+create_basket:
+  rank_arg:
+    method: first
+    ascending: False
+  product_num: 100
+
+split_data:
+  split_data:
+    test_size: 0.4
+    random_state: 428
+
+train:
+  apriori_args:
+    min_support: 0.01
+    use_colnames: True
+  association_rules_args:
+    metric: lift
+    min_threshold: 1
+  ante_num_filter: 1 # filter recommendations where antecedents only have ante_num_filter products
+  rank_arg:
+    method: first
+    ascending: False
+  rank_filter: 2 # For each antecedents, keep rank_filter recommendations
+  to_columns:
+    - StockCode
+    - rec1
+    - rec2
+    - conf1
+    - conf2
+
+result_columns:
+  - StockCode
+  - Description
+  - Price
+  - rec1
+  - conf1
+  - Description_rec1
+  - Price_rec1
+  - rec2
+  - conf2
+  - Description_rec2
+  - Price_rec2
