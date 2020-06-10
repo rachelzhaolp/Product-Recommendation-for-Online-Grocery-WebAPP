@@ -7,25 +7,6 @@ logger = logging.getLogger(__name__)
 project_path = path.dirname(path.dirname(path.abspath(__file__)))
 
 
-def split(df, split_data):
-    """
-    Split and store the training/test data
-    :param df: (String) Relative local file path of the data source
-    :param split_data: (Dictionary) Arguments to split the data into training and test
-    :return: None
-    """
-    try:
-        # Split data into test and train
-        df_train, df_test = model_selection.train_test_split(df, **split_data)
-
-        return [df_train, df_test]
-
-    except ValueError as e1:
-        logger.error("ValueError: " + str(e1) + " Please validate Values in the configuration file.")
-    except Exception as e:
-        logger.error("Unexpected error occurred when splitting data: " + str(e))
-
-
 def main(args):
     """
     main function to split data
@@ -45,6 +26,21 @@ def main(args):
         # Write to output file
         save_csv(df_train, out_train_path)
         save_csv(df_test, out_test_path)
-
+    except ValueError as e1:
+        logger.error("ValueError: " + str(e1) + " Please validate Values in the configuration file.")
     except Exception as e:
         logger.error("Unexpected error occurred when splitting data: " + str(e))
+
+
+def split(df, split_data):
+    """
+    Split and store the training/test data
+    :param df: (String) Relative local file path of the data source
+    :param split_data: (Dictionary) Arguments to split the data into training and test
+    :return: None
+    """
+    # Split data into test and train
+    df_train, df_test = model_selection.train_test_split(df, **split_data)
+
+    return [df_train, df_test]
+
