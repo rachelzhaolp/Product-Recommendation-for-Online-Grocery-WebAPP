@@ -1,20 +1,20 @@
 import filecmp
 import logging
-import subprocess
-import yaml
+from os import path
+from src.helper import load_config
+
+
 
 dict_file_types = ["json", "yml", "yaml"]
 logger = logging.getLogger(__name__)
+project_path = path.dirname(path.dirname(path.abspath(__file__)))
 
 
-def reproducibility_tests(args=None, config_path=None):
+def reproducibility_tests(args):
     """Runs commands in config file and compares the generated files to those that are expected."""
+    config_path = project_path + "/" + args.config
 
-    if args is not None:
-        config_path = args.config
-
-    with open(config_path, "r") as f:
-        modules = yaml.load(f, Loader=yaml.FullLoader)
+    modules = load_config(config_path)
 
     all_passed = True
     for module in modules:
