@@ -42,6 +42,9 @@ class Rec(db.Model):
 @app.route("/")
 @app.route("/home", methods=['GET', 'POST'])
 def submitForm():
+    """
+    Get data from database for the webapp
+    """
     try:
         rec = db.session.query(Rec)
         StockCode = request.form.get('prod')
@@ -55,4 +58,4 @@ def submitForm():
 
 
 if __name__ == '__main__':
-    app.run(debug=False, port=app.config["PORT"], host=app.config["HOST"])
+    app.run(debug=True, port=app.config["PORT"], host=app.config["HOST"])
