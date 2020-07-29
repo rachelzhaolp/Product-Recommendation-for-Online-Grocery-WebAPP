@@ -3,7 +3,6 @@
 
 <!-- toc -->
 #### Developer: Luping(Rachel) Zhao
-#### QA: Siqi Li
 
 <!-- toc -->
 
