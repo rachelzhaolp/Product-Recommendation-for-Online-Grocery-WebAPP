@@ -65,9 +65,9 @@
 
 ```bash
 # The repository will be download to your current working directory. 
-git clone git@github.com:rachelzhaolp/2020-msia423-Zhao-Luping.git
+git clone git@github.com:rachelzhaolp/Product-Recommendation-for-Online-Grocery-WebAPP.git
 # change working directory to the repository
-cd 2020-msia423-Zhao-Luping
+cd Product-Recommendation-for-Online-Grocery-WebAPP
 ```
 
 ## Model pipeline 
